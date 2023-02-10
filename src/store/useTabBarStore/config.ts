@@ -9,7 +9,19 @@ import UnBook from '@/assets/imgs/un-book.png'
 import UnError from '@/assets/imgs/un-error.png'
 import UnMine from '@/assets/imgs/un-mine.png'
 
-const tabBarList = {
+export interface TabBarList {
+  pagePath: string
+  selectedIconPath: string
+  iconPath: string
+  text: string
+}
+export interface TabBar {
+  color: string
+  selectedColor: string
+  list: TabBarList[]
+}
+
+const tabBarList: TabBar = {
   color: '#B8B8D2',
   selectedColor: '#42A2FA',
   list: [

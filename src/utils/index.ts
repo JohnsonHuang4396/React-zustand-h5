@@ -1,5 +1,4 @@
-import { cloneDeep } from 'lodash'
-import { isObject } from './is'
+import { cloneDeep, isObject } from 'lodash'
 
 export const deepMerge = <T = any>(source = {}, target: any = {}): T => {
   let key: string
@@ -13,3 +12,6 @@ export const deepMerge = <T = any>(source = {}, target: any = {}): T => {
 
   return result as T
 }
+
+export const mergeClassName = (classList: string[]): string =>
+  classList.join(' ')

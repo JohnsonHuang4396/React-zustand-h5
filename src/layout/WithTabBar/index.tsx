@@ -1,20 +1,19 @@
-import { Image, Layout, Tabs } from 'antd'
-import { Content, Footer, Header } from 'antd/es/layout/layout'
-import React from 'react'
+import React, { FC } from 'react'
 import useTabBarStore from '@/store/useTabBarStore'
+import WithLocationListener from '@/routes/modules/RouteGuard'
+import { Image, Layout, Tabs } from 'antd'
+import { Content, Footer } from 'antd/es/layout/layout'
+import type { TabBarList } from '@/store/useTabBarStore/config'
 
 import './index.scss'
 
-export interface TabProps {
-  config: {
-    currentTab: string
-    text: string
-    iconPath: string
-    selectedIconPath: string
-    pagePath: string
-  }
+interface Config extends TabBarList {
+  currentTab: string
 }
-const TabLabel = (props: TabProps) => {
+export interface TabProps {
+  config: Config
+}
+const TabLabel: FC<TabProps> = (props: TabProps) => {
   const { iconPath, text, selectedIconPath, pagePath, currentTab } =
     props.config
 
@@ -37,11 +36,17 @@ const TabLabel = (props: TabProps) => {
 const TabBar = () => {
   const negative = useNavigate()
 
-  const { currentTab, config, switchTab } = useTabBarStore(state => ({
-    currentTab: state.currentTab,
-    config: state.config,
-    switchTab: state.switchTab
-  }))
+  const { currentTab, config, switchTab, confirmNavigate } = useTabBarStore(
+    state => ({
+      currentTab: state.currentTab,
+      config: state.config,
+      switchTab: state.switchTab,
+      confirmNavigate: state.confirmIsShowAfterNavigate
+    })
+  )
+
+  const location = useLocation()
+  useMount(() => confirmNavigate(location))
 
   const handleTabChange = (activeTab: string) => {
     negative(activeTab)
@@ -66,29 +71,42 @@ const TabBar = () => {
 interface LayoutWithTabBarProps {
   children: React.ReactNode
 }
-const LayoutWithTabBar = (props: LayoutWithTabBarProps) => {
+const LayoutWithTabBar: FC<LayoutWithTabBarProps> = (
+  props: LayoutWithTabBarProps
+) => {
   const { children } = props
 
-  const [layoutStyle, setLayoutStyle] = useState({
-    marginBottom: 0
-  })
+  const { contentStyle, setMarginBottom, isShow } = useTabBarStore(state => ({
+    isShow: state.isShow,
+    contentStyle: state.contentStyle,
+    setMarginBottom: state.setMarginBottom
+  }))
 
   const footerRef = useRef(null)
   const size = useSize(footerRef)
   useEffect(() => {
-    setLayoutStyle({
-      marginBottom: size?.height as number
-    })
-  }, [size])
+    setMarginBottom((size?.height as number) ?? 0)
+  }, [size, isShow])
 
   return (
     <Layout className="custom-layout">
-      <Content className="custom-layout-content" style={layoutStyle}>
-        {children}
+      <Content className="custom-layout-content" style={contentStyle}>
+        <WithLocationListener>{children}</WithLocationListener>
       </Content>
-      <Footer ref={footerRef} className="custom-layout-footer">
-        <TabBar />
-      </Footer>
+      {useMemo(
+        () => (
+          <Footer
+            ref={footerRef}
+            className={mergeClassName([
+              'custom-layout-footer',
+              isShow ? 'flex' : 'hidden'
+            ])}
+          >
+            <TabBar />
+          </Footer>
+        ),
+        [isShow]
+      )}
     </Layout>
   )
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import Routes from './routes'
 import { BrowserRouter } from 'react-router-dom'
@@ -9,13 +9,13 @@ import './index.css'
 import 'uno.css'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <ConfigProvider>
-      <BrowserRouter>
-        <LayoutWithTabBar>
+  <ConfigProvider>
+    <BrowserRouter>
+      <LayoutWithTabBar>
+        <Suspense>
           <Routes />
-        </LayoutWithTabBar>
-      </BrowserRouter>
-    </ConfigProvider>
-  </React.StrictMode>
+        </Suspense>
+      </LayoutWithTabBar>
+    </BrowserRouter>
+  </ConfigProvider>
 )

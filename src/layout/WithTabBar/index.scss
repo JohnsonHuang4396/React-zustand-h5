@@ -1,9 +1,12 @@
+$border-radius: 24px;
+$layout-padding: 0 $border-radius;
+
 .custom-layout {
   height: 100%;
   position: relative;
   .custom-layout-content {
     height: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
   .custom-layout-footer {
     width: 100%;
@@ -14,8 +17,8 @@
     background: transparent;
     .ant-tabs {
       width: 100%;
-      padding: 0 16px;
-      border-radius: 16px 16px 0 0;
+      padding: $layout-padding;
+      border-radius: $border-radius $border-radius 0 0;
       background-color: #ffffff;
       .ant-tabs-nav {
         margin: 0;
@@ -30,10 +33,6 @@
           }
         }
       }
-
-      // .ant-tabs-ink-bar {
-      //   top: 0;
-      // }
     }
   }
 }

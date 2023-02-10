@@ -1,13 +1,16 @@
-import { FC } from 'react'
+import { Button } from 'antd'
 
-const Home: FC = () => {
-  const arr = new Array(1000).fill(11)
+const Home = () => {
+  const navigate = useNavigate()
 
   return (
     <>
-      {arr.map(item => (
-        <div key={item}>{item}</div>
-      ))}
+      <Button type="primary" onClick={() => navigate('/home-detail')}>
+        navigate to 404
+      </Button>
+      <Button danger onClick={() => navigate('/inspection-detail')}>
+        navigate to inspection-detail
+      </Button>
     </>
   )
 }

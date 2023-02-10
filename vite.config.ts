@@ -24,6 +24,7 @@ export default defineConfig({
         './src/utils',
         './src/utils/request',
         './src/hook',
+        './src/store/useTabBarStore',
         './src/config',
         './src/apis'
       ],
