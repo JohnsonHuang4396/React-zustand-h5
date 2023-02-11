@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import useTabBarStore from '@/store/useTabBarStore'
-import WithLocationListener from '@/routes/modules/RouteGuard'
+import WithLocationListener from '@/routes/RouteGuard'
 import { Image, Layout, Tabs } from 'antd'
 import { Content, Footer } from 'antd/es/layout/layout'
 import type { TabBarList } from '@/store/useTabBarStore/config'
